@@ -49,3 +49,22 @@ camera {
     left: 50%;
     transform: translateX(-50%);
 }
+
+.info-box {
+    box-sizing: border-box;
+    position: absolute;
+    padding: 0 20px;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.info-item {
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 1px 1px 20px -8px #000;
+}

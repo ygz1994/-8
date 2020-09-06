@@ -11,7 +11,21 @@ Page({
     data: {
         isFront: true,
         image: '',
-        faceInfo: null
+        faceInfo: null,
+        map: {
+            expression: {
+                none: '不笑', smile: '微笑', laugh: '大笑'
+            },
+            gender: {
+                male: '男', female: '女'
+            },
+            glasses: {
+                none: '无眼镜', common: '普通眼镜', sun: '墨镜'
+            },
+            emotion: {
+                angry: '愤怒', disgust: '厌恶', fear: '恐惧', happy: '高兴', sad: '伤心', surprise: '惊讶', neutral: '无表情', pouty: '撅嘴', grimace: '鬼脸'
+            }
+        }
     },
 
     // 翻转摄像头事件处理函数。
@@ -56,11 +70,11 @@ Page({
 
     // 重选照片。
     reChoose() {
-        this.setData({ image: '' });
+        this.setData({ image: '', faceInfo: null });
     },
 
     // 测试颜值的函数。
-    async detectFace(){
+    async detectFace() {
         console.log('开始测试颜值')
         if (app.token) {
             // 拿到文件管理器。
@@ -68,21 +82,33 @@ Page({
             // 拿到图片，并转换为 BASE64 字符串。
             const base64 = fm.readFileSync(this.data.image, 'base64');
 
-            // 请求人脸检测 API。
-            const res = await post('https://aip.baidubce.com/rest/2.0/face/v3/detect', {
-                image: base64, image_type: 'BASE64', face_field: 'age,beauty,expression,gender,glasses,emotion'
-            }, {access_token: app.token});
+            wx.showLoading({
+                title: '加载中..',
+            });
 
-            // 判断有没有人脸信息。
-            if (res.data.result && res.data.result.face_num) {
-                this.setData({faceInfo: res.data.result.face_list[0]})
-            } else wx.showToast({
-              title: '没有检测到人脸数据！', icon: 'none'
-            })
+            try {
+                // 请求人脸检测 API。
+                const res = await post('https://aip.baidubce.com/rest/2.0/face/v3/detect', {
+                    image: base64, image_type: 'BASE64', face_field: 'age,beauty,expression,gender,glasses,emotion'
+                }, { access_token: app.token });
+
+                // 判断有没有人脸信息。
+                if (res.data.result && res.data.result.face_num) {
+                    this.setData({ faceInfo: res.data.result.face_list[0] })
+                } else wx.showToast({
+                    title: '没有检测到人脸数据！', icon: 'none'
+                })
+            } catch (error) {
+                wx.showToast({
+                    title: '网络有毛病！', icon: 'none'
+                })
+            } finally {
+                wx.hideLoading()
+            }
         } else {
             wx.showToast({
-              title: '登录失败，请重新运行小程序！',
-              icon: 'none'
+                title: '登录失败，请重新运行小程序！',
+                icon: 'none'
             })
         }
     }

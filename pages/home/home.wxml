@@ -2,6 +2,22 @@
 <!-- 有照片就显示照片 -->
 <view class="image-box" wx:if="{{image}}">
     <image class="preview" src="{{image}}" mode="aspectFill"></image>
+    <!-- 信息展示区域 -->
+    <view class="info-box" wx:if="{{faceInfo}}">
+        <view class="info-item">
+            <text>年龄：{{faceInfo.age}}</text>
+            <text>颜值：{{faceInfo.beauty}}</text>
+        </view>
+        <view class="info-item">
+            <text>表情：{{map.expression[faceInfo.expression.type]}}</text>
+            <text>性别：{{map.gender[faceInfo.gender.type]}}</text>
+        </view>
+        <view class="info-item">
+            <text>眼镜：{{map.glasses[faceInfo.glasses.type]}}</text>
+            <text>情绪：{{map.emotion[faceInfo.emotion.type]}}</text>
+        </view>
+    </view>
+
     <!-- 重选图片 -->
     <view class="btn-back" bindtap="reChoose">
         <mp-icon type="field" icon="back2" color="#fff" />
