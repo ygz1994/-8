@@ -1,0 +1,10 @@
+{
+    "pages": [
+        "pages/home/home"
+    ],
+    "window": {},
+    "useExtendedLib": {
+        "weui": true
+    },
+    "sitemapLocation": "sitemap.json"
+}

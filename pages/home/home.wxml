@@ -1,0 +1,23 @@
+<!--pages/home/home.wxml-->
+<!-- 有照片就显示照片 -->
+<view class="image-box" wx:if="{{image}}">
+    <image class="preview" src="{{image}}" mode="aspectFill"></image>
+    <!-- 重选图片 -->
+    <view class="btn-back" bindtap="reChoose">
+        <mp-icon type="field" icon="back2" color="#fff" />
+        重选照片
+    </view>
+</view>
+
+<!-- 没相片的时候展示相机 -->
+<camera wx:else device-position="{{isFront ? 'front' : 'back'}}">
+    <!-- 相机的按钮组 -->
+    <cover-view class="btn-group">
+        <!-- 翻转相机 -->
+        <cover-image bindtap="reverse" src="/assets/icons/reverse.png"></cover-image>
+        <!-- 拍照 -->
+        <cover-image src="/assets/icons/camera.png" bindtap="takePhoto"></cover-image>
+        <!-- 相册 -->
+        <cover-image src="/assets/icons/album.png" bindtap="chooseImage"></cover-image>
+    </cover-view>
+</camera>
